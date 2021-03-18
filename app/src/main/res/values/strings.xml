@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Notes</string>
+    <string name="notes1">Notes №1</string>
+    <string name="notes1_content">Here is your note</string>
+    <string name="notes2">Notes №2</string>
+    <string name="notes2_content">Here is your note</string>
+    <string name="notes3">Notes №3</string>
+    <string name="notes3_content">Here is your note</string>
+    <string name="notes_heading">Заголовок</string>
+    <string name="notes_content">Содержание</string>
 </resources>
