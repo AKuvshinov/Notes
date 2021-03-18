@@ -31,13 +31,13 @@ public class NotesArray implements Parcelable {
 
     public static final Parcelable.Creator<NotesArray> CREATOR = new Parcelable.Creator<NotesArray>() {
         @Override
-        public NotesArray createFromParcel(Parcel source) {
-            return new NotesArray(source);
+        public com.aleksey_kuvshinov.notes.NotesArray createFromParcel(Parcel source) {
+            return new com.aleksey_kuvshinov.notes.NotesArray(source);
         }
 
         @Override
-        public NotesArray[] newArray(int size) {
-            return new NotesArray[size];
+        public com.aleksey_kuvshinov.notes.NotesArray[] newArray(int size) {
+            return new com.aleksey_kuvshinov.notes.NotesArray[size];
         }
     };
 

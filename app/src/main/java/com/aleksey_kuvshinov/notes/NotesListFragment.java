@@ -41,17 +41,17 @@ public class NotesListFragment extends Fragment {
                 new NotesArray(getString(R.string.notes3), getString(R.string.notes3_content), Calendar.getInstance()),
         };
 
-        for (NotesArray notesArray : notesArray) {
+        for (NotesArray note : notesArray) {
             Context context = getContext();
             if (context != null) {
                 LinearLayout linearView = (LinearLayout) view;
                 TextView firstTextView = new TextView(context);
-                firstTextView.setText(notes.getHeading());
+                firstTextView.setText(note.getHeading());
                 linearView.addView(firstTextView);
                 firstTextView.setPadding(10, 30, 0, 0);
                 firstTextView.setTextSize(36);
                 firstTextView.setOnClickListener(v -> {
-                    notes = notesArray;
+                    notes = note;
                     displayNote(notes);
                 });
             }
@@ -90,7 +90,7 @@ public class NotesListFragment extends Fragment {
         NotesFragment fragment = NotesFragment.newInstance(notes);
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.note_layout, fragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+        fragmentTransaction.replace(R.id.notes_layout, fragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
     }
 
     private void displayPortNotes(NotesArray notes) {
