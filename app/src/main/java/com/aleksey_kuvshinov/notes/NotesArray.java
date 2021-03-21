@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import java.util.Calendar;
 
 public class NotesArray implements Parcelable {
+
     private String heading;
     private String content;
     private Calendar date;
@@ -31,13 +32,13 @@ public class NotesArray implements Parcelable {
 
     public static final Parcelable.Creator<NotesArray> CREATOR = new Parcelable.Creator<NotesArray>() {
         @Override
-        public com.aleksey_kuvshinov.notes.NotesArray createFromParcel(Parcel source) {
-            return new com.aleksey_kuvshinov.notes.NotesArray(source);
+        public NotesArray createFromParcel(Parcel source) {
+            return new NotesArray(source);
         }
 
         @Override
-        public com.aleksey_kuvshinov.notes.NotesArray[] newArray(int size) {
-            return new com.aleksey_kuvshinov.notes.NotesArray[size];
+        public NotesArray[] newArray(int size) {
+            return new NotesArray[size];
         }
     };
 
@@ -70,4 +71,3 @@ public class NotesArray implements Parcelable {
         this.date = date;
     }
 }
-

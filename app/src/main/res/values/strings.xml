@@ -6,6 +6,20 @@
     <string name="notes2_content">Here is your note</string>
     <string name="notes3">Notes №3</string>
     <string name="notes3_content">Here is your note</string>
+    <string name="notes4">Notes №4</string>
+    <string name="notes4_content">Here is your note</string>
+    <string name="notes5">Notes №5</string>
+    <string name="notes5_content">Here is your note</string>
+    <string name="notes6">Notes №6</string>
+    <string name="notes6_content">Here is your note</string>
     <string name="notes_heading">Заголовок</string>
     <string name="notes_content">Содержание</string>
+
+    <string name="menu_search">Найти</string>
+    <string name="about">Мои заметки</string>
+    <string name="settings">Настройки</string>
+    <string name="example">Заметки</string>
+    <string name="icon_android">Icon android</string>
+    <string name="drawer_open">Open navigation</string>
+    <string name="drawer_close">Close navigation</string>
 </resources>

@@ -25,9 +25,6 @@ public class NotesListFragment extends Fragment {
     private NotesArray[] notesArray;
     private NotesArray notes;
 
-    public NotesListFragment() {
-
-    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -39,6 +36,9 @@ public class NotesListFragment extends Fragment {
                 new NotesArray(getString(R.string.notes1), getString(R.string.notes1_content), Calendar.getInstance()),
                 new NotesArray(getString(R.string.notes2), getString(R.string.notes2_content), Calendar.getInstance()),
                 new NotesArray(getString(R.string.notes3), getString(R.string.notes3_content), Calendar.getInstance()),
+                new NotesArray(getString(R.string.notes4), getString(R.string.notes4_content), Calendar.getInstance()),
+                new NotesArray(getString(R.string.notes5), getString(R.string.notes5_content), Calendar.getInstance()),
+                new NotesArray(getString(R.string.notes6), getString(R.string.notes6_content), Calendar.getInstance()),
         };
 
         for (NotesArray note : notesArray) {
@@ -49,7 +49,7 @@ public class NotesListFragment extends Fragment {
                 firstTextView.setText(note.getHeading());
                 linearView.addView(firstTextView);
                 firstTextView.setPadding(10, 30, 0, 0);
-                firstTextView.setTextSize(36);
+                firstTextView.setTextSize(28);
                 firstTextView.setOnClickListener(v -> {
                     notes = note;
                     displayNote(notes);
@@ -62,6 +62,11 @@ public class NotesListFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putParcelable(NotesFragment.NOTES, notes);
         super.onSaveInstanceState(outState);
+    }
+
+    private void initNotes(NotesArray note) {
+        notes = note;
+        displayNote(note);
     }
 
     @Override
@@ -94,9 +99,13 @@ public class NotesListFragment extends Fragment {
     }
 
     private void displayPortNotes(NotesArray notes) {
-        Intent intent = new Intent(getActivity(), NotesActivity.class);
-        intent.putExtra(NotesFragment.NOTES, notes);
-        startActivity(intent);
+        NotesFragment fragment = NotesFragment.newInstance(notes);
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack("list_fragment");
+        fragmentTransaction.replace(R.id.list_of_notes_fragment_container, fragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
     }
 
     @Override
