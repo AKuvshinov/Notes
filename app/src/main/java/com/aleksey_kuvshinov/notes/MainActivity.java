@@ -1,6 +1,7 @@
 package com.aleksey_kuvshinov.notes;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -8,58 +9,83 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.aleksey_kuvshinov.notes.details.NoteDetailsActivity;
+import com.aleksey_kuvshinov.notes.main.Adapter;
+import com.aleksey_kuvshinov.notes.main.MainViewModel;
+import com.aleksey_kuvshinov.notes.model.Note;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener {
+
+    private Intent intentOfActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.notes_container, new NotesListFragment());
-        fragmentTransaction.commit();
-        Toolbar toolbar = initToolbar();
-        initDrawer(toolbar);
-    }
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-    private void initDrawer(Toolbar toolbar) {
-        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        RecyclerView recyclerView = findViewById(R.id.list);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (navigateMenu(id)) {
-                drawer.closeDrawer(GravityCompat.START);
-                return true;
+        final Adapter adapter = new Adapter();
+        recyclerView.setAdapter(adapter);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NoteDetailsActivity.start(MainActivity.this, null);
             }
-            return false;
         });
-    }
 
-    @SuppressLint("NonConstantResourceId")
-    private boolean navigateMenu(int id) {
-        switch (id) {
-            case R.id.nav_settings:
-                Toast.makeText(this, getResources().getString(R.string.settings), Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.nav_about:
-                Toast.makeText(this, getResources().getString(R.string.about), Toast.LENGTH_LONG).show();
-                return true;
-        }
-        return false;
+        MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mainViewModel.getNoteLiveData().observe(this, new Observer<List<Note>>() {
+            @Override
+            public void onChanged(List<Note> notes) {
+                adapter.setItems(notes);
+            }
+        });
+
+    }
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Выход из приложения")
+                .setMessage("Вы уверены, что хотите выйти?")
+                .setPositiveButton("Да", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton("Нет", null)
+                .show();
     }
 
     @Override
@@ -70,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Snackbar.make(findViewById(R.id.drawer_layout), query, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.menu_search), query, Snackbar.LENGTH_SHORT).show();
                 return true;
             }
 
@@ -84,17 +110,7 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        Snackbar.make(findViewById(R.id.drawer_layout), item.getTitle().toString(), Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(findViewById(R.id.menu_search), item.getTitle().toString(), Snackbar.LENGTH_SHORT).show();
         return false;
-    }
-
-    private boolean checkLandScapeOrientation() {
-        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-    }
-
-    private Toolbar initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        return toolbar;
     }
 }
