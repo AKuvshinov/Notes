@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class NotesFragment extends Fragment {
-
     static final String NOTES = "notes";
     private NotesArray notes;
 
@@ -39,7 +38,7 @@ public class NotesFragment extends Fragment {
         TextView headingText = view.findViewById(R.id.heading);
         TextView contentText = view.findViewById(R.id.content);
         TextView date = view.findViewById(R.id.date);
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault());
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
         date.setText(String.format("%s", formatter.format(notes.getDate().getTime())));
         headingText.setText(notes.getHeading());
         contentText.setText(notes.getContent());

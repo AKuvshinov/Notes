@@ -1,5 +1,6 @@
 package com.aleksey_kuvshinov.notes;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -10,6 +11,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +33,8 @@ public class NotesListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initList(view);
+        RecyclerView recyclerView = view.findViewById(R.id.notes_recycler_view);
+        initRecyclerView(recyclerView, notesArray);
     }
 
     private void initList(View view) {
@@ -39,23 +45,28 @@ public class NotesListFragment extends Fragment {
                 new NotesArray(getString(R.string.notes4), getString(R.string.notes4_content), Calendar.getInstance()),
                 new NotesArray(getString(R.string.notes5), getString(R.string.notes5_content), Calendar.getInstance()),
                 new NotesArray(getString(R.string.notes6), getString(R.string.notes6_content), Calendar.getInstance()),
+                new NotesArray(getString(R.string.notes7), getString(R.string.notes7_content), Calendar.getInstance()),
+                new NotesArray(getString(R.string.notes8), getString(R.string.notes8_content), Calendar.getInstance()),
+                new NotesArray(getString(R.string.notes9), getString(R.string.notes9_content), Calendar.getInstance()),
+                new NotesArray(getString(R.string.notes10), getString(R.string.notes10_content), Calendar.getInstance()),
         };
+    }
 
-        for (NotesArray note : notesArray) {
-            Context context = getContext();
-            if (context != null) {
-                LinearLayout linearView = (LinearLayout) view;
-                TextView firstTextView = new TextView(context);
-                firstTextView.setText(note.getHeading());
-                linearView.addView(firstTextView);
-                firstTextView.setPadding(10, 30, 0, 0);
-                firstTextView.setTextSize(28);
-                firstTextView.setOnClickListener(v -> {
-                    notes = note;
-                    displayNote(notes);
-                });
-            }
-        }
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void initRecyclerView(RecyclerView recyclerView, NotesArray[] notesArray){
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        NotesAdapter adapter = new NotesAdapter(notesArray);
+        adapter.setOnItemClickListener((position, note) -> {
+            notes = note;
+            displayNote(notes);
+        });
+        recyclerView.setAdapter(adapter);
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(),  LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
+        recyclerView.addItemDecoration(itemDecoration);
     }
 
     @Override
@@ -64,10 +75,6 @@ public class NotesListFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    private void initNotes(NotesArray note) {
-        notes = note;
-        displayNote(note);
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -95,7 +102,9 @@ public class NotesListFragment extends Fragment {
         NotesFragment fragment = NotesFragment.newInstance(notes);
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.notes_layout, fragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+        fragmentTransaction.replace(R.id.notes_layout, fragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
     }
 
     private void displayPortNotes(NotesArray notes) {
@@ -103,7 +112,7 @@ public class NotesListFragment extends Fragment {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack("list_fragment");
-        fragmentTransaction.replace(R.id.list_of_notes_fragment_container, fragment);
+        fragmentTransaction.replace(R.id.notes_container, fragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
     }
