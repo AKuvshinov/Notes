@@ -1,3 +1,45 @@
 <resources>
-    <string name="app_name">Notes</string>
+    <string name="app_name">Мои заметки</string>
+    <string name="notes1">Notes №1</string>
+    <string name="notes1_content">Here is your note</string>
+
+    <string name="notes2">Notes №2</string>
+    <string name="notes2_content">Here is your note</string>
+
+    <string name="notes3">Notes №3</string>
+    <string name="notes3_content">Here is your note</string>
+
+    <string name="notes4">Notes №4</string>
+    <string name="notes4_content">Here is your note</string>
+
+    <string name="notes5">Notes №5</string>
+    <string name="notes5_content">Here is your note</string>
+
+    <string name="notes6">Notes №6</string>
+    <string name="notes6_content">Here is your note</string>
+
+    <string name="notes7">Notes №7</string>
+    <string name="notes7_content">Here is your note</string>
+
+    <string name="notes8">Notes №8</string>
+    <string name="notes8_content">Here is your note</string>
+
+    <string name="notes9">Notes №9</string>
+    <string name="notes9_content">Here is your note</string>
+
+    <string name="notes10">Notes №10</string>
+    <string name="notes10_content">Here is your note</string>
+
+    <string name="notes_heading">Заголовок</string>
+    <string name="notes_content">Содержание</string>
+
+    <string name="menu_search">Найти</string>
+    <string name="about">Мои заметки</string>
+    <string name="settings">Настройки</string>
+    <string name="example">Мои заметки</string>
+    <string name="icon_android">Icon android</string>
+    <string name="drawer_open">Open navigation</string>
+    <string name="drawer_close">Close navigation</string>
+    <string name="data_item">Дата</string>
+    <string name="head_item">Название</string>
 </resources>
