@@ -9,9 +9,9 @@
     <string name="completed">Выполнение</string>
 
     <string name="menu_search">Найти</string>
-    <string name="about">Мои заметки</string>
+    <string name="about">Список</string>
     <string name="settings">Настройки</string>
-    <string name="example">Мои заметки</string>
+    <string name="example">Мои покупки</string>
     <string name="icon_android">Icon android</string>
     <string name="header_title">Название</string>
 
