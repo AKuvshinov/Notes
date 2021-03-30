@@ -35,7 +35,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private Intent intentOfActivity;
 
@@ -86,31 +86,5 @@ public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuIt
                 })
                 .setNegativeButton("Нет", null)
                 .show();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        MenuItem search = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) search.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Snackbar.make(findViewById(R.id.menu_search), query, Snackbar.LENGTH_SHORT).show();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return true;
-            }
-        });
-        return true;
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        Snackbar.make(findViewById(R.id.menu_search), item.getTitle().toString(), Snackbar.LENGTH_SHORT).show();
-        return false;
     }
 }

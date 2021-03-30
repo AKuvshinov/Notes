@@ -120,6 +120,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.NoteViewHolder> {
                 public void onClick(View view) {
                     App.getInstance().getNoteDao().delete(note);
                 }
+
             });
 
             completed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
